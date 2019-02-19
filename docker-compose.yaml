@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  influxdb:
+    image: influxdb:1.7.3
+    container_name: mood_influxdb
+    hostname: influxdb
+    environment:
+      INFLUXDB_DB: metrics
+
+  grafana:
+    image: grafana/grafana:5.4.3
+    container_name: mood_grafana
+    hostname: grafana
+    ports:
+      - 3000:3000
+
+  telegraf:
+    image: telegraf:1.9.4
+    container_name: mood_telegraf
+    hostname: telegraf
+    volumes:
+      - ./docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
+  nginx:
+    image: nginx:1.15.8
+    container_name: mood_nginx
+    hostname: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./:/app:ro
+
+  php:
+    image: mood_php:latest
+    build:
+      context: docker/php
+    container_name: mood_php
+    hostname: php
+    volumes:
+      - ./:/app:ro
+
+  mysql:
+    image: mysql:5.7.25
+    container_name: mood_mysql
+    hostname: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - ./docker/mysql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
