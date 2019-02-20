@@ -8,7 +8,7 @@ services:
       service: nginx
     environment:
       VIRTUAL_HOST: mood.colla.io
-      LETSENCRYPT_HOST: grafana.mood.colla.io
+      LETSENCRYPT_HOST: mood.colla.io
       LETSENCRYPT_EMAIL: meetmatt@ya.ru
 
   php:
