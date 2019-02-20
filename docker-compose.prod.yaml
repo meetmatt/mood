@@ -19,7 +19,7 @@ services:
   mysql:
     extends:
       file: docker-compose.base.yaml
-      service: php
+      service: mysql
 
   proxy:
     image: jwilder/nginx-proxy
