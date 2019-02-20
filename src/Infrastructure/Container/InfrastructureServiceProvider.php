@@ -2,6 +2,12 @@
 
 namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 
+use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
+use MeetMatt\Colla\Mood\Domain\Metrics\MetricsInterface;
+use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
+use MeetMatt\Colla\Mood\Infrastructure\Cryptography\RandomIdGenerator;
+use MeetMatt\Colla\Mood\Infrastructure\Metrics\DogStatsdMetrics;
+use MeetMatt\Colla\Mood\Infrastructure\Mysql\TeamRepository;
 use ParagonIE\EasyDB\EasyDB;
 use ParagonIE\EasyDB\Factory;
 use Pimple\Container;
@@ -16,10 +22,8 @@ class InfrastructureServiceProvider implements ServiceProviderInterface
             $slim = new App($container);
 
             foreach ($container['routes'] as $route) {
-                $slim->map([$route['method']], $route['pattern'], $route['action']);
+                $slim->map([$route['method']], $route['pattern'], $route['action'])->setName($route['name']);
             }
-
-            $slim->add($container[ErrorResponseMiddleware::class]);
 
             return $slim;
         };
@@ -48,13 +52,15 @@ class InfrastructureServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple[ErrorResponseMiddleware::class] = function () {
-            return new ErrorResponseMiddleware();
-        };
-
         $pimple[RandomIdGeneratorInterface::class] = function () {
             return new RandomIdGenerator();
         };
 
+        $pimple[TeamRepositoryInterface::class] = function (Container $container) {
+            return new TeamRepository(
+                $container[EasyDB::class],
+                $container[RandomIdGeneratorInterface::class]
+            );
+        };
     }
 }

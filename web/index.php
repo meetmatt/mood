@@ -19,13 +19,12 @@ foreach ($services as $service) {
 $app = $container[App::class];
 $app->run();
 
-// after response
-$timerEnd = microtime(true);
+fastcgi_finish_request();
 
+$timerEnd = microtime(true);
 /** @var MetricsInterface $metrics */
 $metrics = $container[MetricsInterface::class];
-$metrics->increment('api.calls');
-// for some reason results in influx are in microseconds
-$metrics->microtiming('api.response_time', $timerEnd - $timerStart);
+$metrics->increment('page_views.count');
+$metrics->microtiming('response_time.timing', $timerEnd - $timerStart);
 $metrics->flush();
 

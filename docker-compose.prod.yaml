@@ -1,0 +1,74 @@
+version: '2'
+
+services:
+
+  nginx:
+    extends:
+      file: docker-compose.base.yaml
+      service: nginx
+    environment:
+      VIRTUAL_HOST: mood.colla.io
+      LETSENCRYPT_HOST: grafana.mood.colla.io
+      LETSENCRYPT_EMAIL: meetmatt@ya.ru
+
+  php:
+    extends:
+      file: docker-compose.base.yaml
+      service: php
+
+  mysql:
+    extends:
+      file: docker-compose.base.yaml
+      service: php
+
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: mood_proxy
+    hostname: proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./var/nginx/certs:/etc/nginx/certs
+      - ./var/nginx/vhost.d:/etc/nginx/vhost.d
+      - ./var/nginx/html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: mood_letsencrypt
+    hostname: letsencrypt
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - proxy
+
+
+  telegraf:
+    image: telegraf:1.9.4
+    container_name: mood_telegraf
+    hostname: telegraf
+    restart: always
+    volumes:
+      - ./docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
+  influxdb:
+    image: influxdb:1.7.3
+    container_name: mood_influxdb
+    hostname: influxdb
+    restart: always
+    environment:
+      INFLUXDB_DB: metrics
+
+  grafana:
+    image: grafana/grafana:5.4.3
+    container_name: mood_grafana
+    hostname: grafana
+    restart: always
+    environment:
+      VIRTUAL_HOST: grafana.mood.colla.io
+      VIRTUAL_PORT: 3000
+      LETSENCRYPT_HOST: grafana.mood.colla.io
+      LETSENCRYPT_EMAIL: meetmatt@ya.ru
