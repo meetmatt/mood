@@ -2,21 +2,21 @@
 
 {% block content %}
     <div>
-        <form method="post" action="{{ path_for('find_team') }}">
+        <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('find_team') }}">
             <label>
                 Find team:
                 <input name="id" placeholder="ID">
             </label>
-            <input type="submit">
+            <input class="pure-button pure-button-primary" type="submit">
         </form>
     </div>
     <div>
-        <form method="post" action="{{ path_for('create_team') }}">
+        <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('create_team') }}">
             <label>
                 Create new team:
                 <input name="name" placeholder="Name">
             </label>
-            <input type="submit">
+            <input class="pure-button pure-button-primary" type="submit">
         </form>
     </div>
 {% endblock %}

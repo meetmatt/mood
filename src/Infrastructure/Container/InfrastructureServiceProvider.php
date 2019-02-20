@@ -2,11 +2,13 @@
 
 namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 
+use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Metrics\MetricsInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use MeetMatt\Colla\Mood\Infrastructure\Cryptography\RandomIdGenerator;
 use MeetMatt\Colla\Mood\Infrastructure\Metrics\DogStatsdMetrics;
+use MeetMatt\Colla\Mood\Infrastructure\Mysql\FeedbackRepository;
 use MeetMatt\Colla\Mood\Infrastructure\Mysql\TeamRepository;
 use ParagonIE\EasyDB\EasyDB;
 use ParagonIE\EasyDB\Factory;
@@ -60,6 +62,12 @@ class InfrastructureServiceProvider implements ServiceProviderInterface
             return new TeamRepository(
                 $container[EasyDB::class],
                 $container[RandomIdGeneratorInterface::class]
+            );
+        };
+
+        $pimple[FeedbackRepositoryInterface::class] = function (Container $container) {
+            return new FeedbackRepository(
+                $container[EasyDB::class]
             );
         };
     }

@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ team.name }}</h1>
+    <p>
+        <b>{{ feedback.date }}</b>
+    </p>
+
+    {% if thankyou %}
+        <p>
+            Thank you for feedback!
+        </p>
+    {% endif %}
+
+    <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('save_feedback', {'id':feedback.id}) }}">
+        <fieldset>
+            <input required type="radio" name="rating" value="1"{% if feedback.rating == 1 %} checked{% endif %}> Awful
+            <input type="radio" name="rating" value="2"{% if feedback.rating == 2 %} checked{% endif %}> Bad
+            <input type="radio" name="rating" value="3"{% if feedback.rating == 3 %} checked{% endif %}> Normal
+            <input type="radio" name="rating" value="4"{% if feedback.rating == 4 %} checked{% endif %}> Good
+            <input type="radio" name="rating" value="5"{% if feedback.rating == 5 %} checked{% endif %}> Amazing
+        </fieldset>
+
+        <textarea style="width:100%; height: 100px" name="comment" placeholder="Leave a comment ...">{{ feedback.comment }}</textarea>
+
+        <input class="pure-button pure-button-primary" type="submit">
+    </form>
+{% endblock %}

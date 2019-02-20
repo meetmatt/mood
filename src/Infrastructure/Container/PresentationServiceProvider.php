@@ -2,11 +2,17 @@
 
 namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 
+use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
+use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
-use MeetMatt\Colla\Mood\Presentation\Http\CreateTeamAction;
-use MeetMatt\Colla\Mood\Presentation\Http\FindTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackFormAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackHistoryAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\SaveFeedbackAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\TodayFeedbackAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\CreateTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\FindTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\IndexAction;
-use MeetMatt\Colla\Mood\Presentation\Http\ShowTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\ShowTeamAction;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
 use Slim\Http\Environment;
@@ -59,6 +65,38 @@ class PresentationServiceProvider implements ServiceProviderInterface
             return new ShowTeamAction(
                 $container[TeamRepositoryInterface::class],
                 $container[Twig::class]
+            );
+        };
+
+        $pimple[TodayFeedbackAction::class] = function (Container $container) {
+            return new TodayFeedbackAction(
+                $container[TeamRepositoryInterface::class],
+                $container[FeedbackRepositoryInterface::class],
+                $container[RandomIdGeneratorInterface::class],
+                $container[Twig::class]
+            );
+        };
+
+        $pimple[FeedbackHistoryAction::class] = function (Container $container) {
+            return new FeedbackHistoryAction(
+                $container[TeamRepositoryInterface::class],
+                $container[FeedbackRepositoryInterface::class],
+                $container[Twig::class]
+            );
+        };
+
+        $pimple[FeedbackFormAction::class] = function (Container $container) {
+            return new FeedbackFormAction(
+                $container[FeedbackRepositoryInterface::class],
+                $container[TeamRepositoryInterface::class],
+                $container[Twig::class]
+            );
+        };
+
+        $pimple[SaveFeedbackAction::class] = function (Container $container) {
+            return new SaveFeedbackAction(
+                $container[FeedbackRepositoryInterface::class],
+                $container['router']
             );
         };
     }

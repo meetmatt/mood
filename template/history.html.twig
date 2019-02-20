@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>{{ team.name }}</h1>
+    <p>
+        <a class="pure-button" href="{{ path_for('show_team', {"id":team.id}) }}">Back</a>
+    </p>
+    <p>
+        <b>History</b>
+    </p>
+
+    <table class="pure-table pure-table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for feedback in feedbacks %}
+            <tr>
+                <td>{{ feedback.date }}</td>
+                <td>{{ feedback.rating }}</td>
+                <td>{{ feedback.comment }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

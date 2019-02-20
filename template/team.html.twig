@@ -1,19 +1,16 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-<h1>{{ team.name }}</h1>
+    <h1>{{ team.name }}</h1>
+    <p>
+        Save this ID <b>{{ team.id }}</b> in order to find your team later.
+    </p>
+    <p>
+        Or just simply save this page to bookmarks!
+    </p>
 
-<p>
-    Save this ID <b>{{ team.id }}</b> in order to find your team later.
-</p>
-<p>
-    Or just simply save this page to bookmarks!
-</p>
-
-<p>
-    TODO: link to history
-</p>
-<p>
-    TODO: form to generate N feedback pages for today
-</p>
+    <p>
+        <a class="pure-button" href="{{ path_for('today_feedback', {"id":team.id}) }}">Links for today</a>
+        <a class="pure-button" href="{{ path_for('feedback_history', {"id":team.id}) }}">Feedback history</a>
+    </p>
 {% endblock %}

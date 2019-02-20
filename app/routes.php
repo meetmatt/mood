@@ -1,9 +1,13 @@
 <?php
 
-use MeetMatt\Colla\Mood\Presentation\Http\CreateTeamAction;
-use MeetMatt\Colla\Mood\Presentation\Http\FindTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackFormAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackHistoryAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\SaveFeedbackAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Feedback\TodayFeedbackAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\CreateTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\FindTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\IndexAction;
-use MeetMatt\Colla\Mood\Presentation\Http\ShowTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\ShowTeamAction;
 
 return [
     [
@@ -30,26 +34,28 @@ return [
         'action'  => ShowTeamAction::class,
         'name'    => 'show_team'
     ],
-    /*
     [
-        'method' => 'GET',
+        'method'  => 'GET',
         'pattern' => '/teams/{id}/feedback/today',
-        'action' => '//page to generate or show N feedback links for today',
+        'action'  => TodayFeedbackAction::class,
+        'name'    => 'today_feedback',
     ],
     [
-        'method' => 'GET',
+        'method'  => 'GET',
         'pattern' => '/teams/{id}/feedback/history',
-        'action' => '//show team feedback history',
+        'action'  => FeedbackHistoryAction::class,
+        'name'    => 'feedback_history'
     ],
     [
-        'method' => 'GET',
+        'method'  => 'GET',
         'pattern' => '/feedback/{id}',
-        'action' => '//feedback form',
+        'action'  => FeedbackFormAction::class,
+        'name'    => 'feedback_form'
     ],
     [
-        'method' => 'POST',
+        'method'  => 'POST',
         'pattern' => '/feedback/{id}',
-        'action' => '//process feedback',
+        'action'  => SaveFeedbackAction::class,
+        'name'    => 'save_feedback'
     ],
-    */
 ];

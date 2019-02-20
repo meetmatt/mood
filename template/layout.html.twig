@@ -3,8 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Mood - Colla.io</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+          integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
 </head>
 <body>
-{% block content %}{% endblock %}
+<div class="pure-g">
+    <div class="pure-u-1-8"></div>
+    <div class="pure-u-3-8">
+        <div style="box-shadow: -1px 1px 17px #ccc; padding: 10px; margin-top:10px;">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <div class="pure-u-4-8"></div>
+</div>
 </body>
 </html>

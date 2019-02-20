@@ -1,7 +1,8 @@
 <?php
 
-namespace MeetMatt\Colla\Mood\Presentation\Http;
+namespace MeetMatt\Colla\Mood\Presentation\Http\Team;
 
+use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,7 +30,11 @@ class ShowTeamAction
     {
         $id = $arguments['id'];
 
-        $team = $this->teamRepository->get($id);
+        try {
+            $team = $this->teamRepository->get($id);
+        } catch (NotFoundException $exception) {
+            return $response->withStatus(404, $exception->getMessage());
+        }
 
         return $this->twig->render($response, 'team.html.twig', ['team' => $team]);
     }
