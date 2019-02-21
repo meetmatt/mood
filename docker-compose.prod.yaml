@@ -47,8 +47,18 @@ services:
     image: telegraf:1.9.4
     container_name: mood_telegraf
     restart: always
+    environment:
+      HOST_PROC: /rootfs/proc
+      HOST_SYS: /rootfs/sys
+      HOST_ETC: /rootfs/etc
+      HOST_MOUNT_PREFIX: /hostfs
     volumes:
       - ./docker/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /etc:/rootfs/etc:ro
+      - /:/hostfs:ro
 
   influxdb:
     image: influxdb:1.7.3
