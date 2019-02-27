@@ -7,6 +7,7 @@ use MeetMatt\Colla\Mood\Presentation\Http\Feedback\TodayFeedbackAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\CreateTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\FindTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\IndexAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\SaveTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\ShowTeamAction;
 
 return [
@@ -33,6 +34,12 @@ return [
         'pattern' => '/teams/{id}',
         'action'  => ShowTeamAction::class,
         'name'    => 'show_team'
+    ],
+    [
+        'method'  => 'POST',
+        'pattern' => '/teams/{id}',
+        'action'  => SaveTeamAction::class,
+        'name'    => 'save_team'
     ],
     [
         'method'  => 'GET',

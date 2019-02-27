@@ -13,4 +13,14 @@
         <a class="pure-button" href="{{ path_for('today_feedback', {"id":team.id}) }}">Links for today</a>
         <a class="pure-button" href="{{ path_for('feedback_history', {"id":team.id}) }}">Feedback history</a>
     </p>
+
+    <p>
+        Team emails:
+
+        <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('save_team', {'id':team.id}) }}">
+            <textarea style="width:50%; height: 300px" name="emails">{% for email in emails.all %}{{ email }}
+{% endfor %}</textarea>
+            <input class="pure-button pure-button-primary" type="submit">
+        </form>
+    </p>
 {% endblock %}

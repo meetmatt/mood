@@ -2,6 +2,7 @@
 
 namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 
+use MeetMatt\Colla\Mood\Domain\Email\EmailRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
@@ -12,6 +13,7 @@ use MeetMatt\Colla\Mood\Presentation\Http\Feedback\TodayFeedbackAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\CreateTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\FindTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\IndexAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Team\SaveTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\ShowTeamAction;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
@@ -64,7 +66,16 @@ class PresentationServiceProvider implements ServiceProviderInterface
         $pimple[ShowTeamAction::class] = function (Container $container) {
             return new ShowTeamAction(
                 $container[TeamRepositoryInterface::class],
+                $container[EmailRepositoryInterface::class],
                 $container[Twig::class]
+            );
+        };
+
+        $pimple[SaveTeamAction::class] = function (Container $container) {
+            return new SaveTeamAction(
+                $container[TeamRepositoryInterface::class],
+                $container[EmailRepositoryInterface::class],
+                $container['router']
             );
         };
 
