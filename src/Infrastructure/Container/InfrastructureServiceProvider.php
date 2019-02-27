@@ -3,11 +3,13 @@
 namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 
 use MeetMatt\Colla\Mood\Domain\Email\EmailRepositoryInterface;
+use MeetMatt\Colla\Mood\Domain\Email\EmailSendingServiceInterface;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Metrics\MetricsInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use MeetMatt\Colla\Mood\Infrastructure\Cryptography\RandomIdGenerator;
+use MeetMatt\Colla\Mood\Infrastructure\Email\NoopEmailSendingService;
 use MeetMatt\Colla\Mood\Infrastructure\Metrics\DogStatsdMetrics;
 use MeetMatt\Colla\Mood\Infrastructure\Mysql\EmailRepository;
 use MeetMatt\Colla\Mood\Infrastructure\Mysql\FeedbackRepository;
@@ -16,22 +18,11 @@ use ParagonIE\EasyDB\EasyDB;
 use ParagonIE\EasyDB\Factory;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Slim\App;
 
 class InfrastructureServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {
-        $pimple[App::class] = function (Container $container) {
-            $slim = new App($container);
-
-            foreach ($container['routes'] as $route) {
-                $slim->map([$route['method']], $route['pattern'], $route['action'])->setName($route['name']);
-            }
-
-            return $slim;
-        };
-
         $pimple[EasyDB::class] = function (Container $container) {
             $settings = $container['settings']['mysql'];
 
@@ -77,6 +68,10 @@ class InfrastructureServiceProvider implements ServiceProviderInterface
             return new EmailRepository(
                 $container[EasyDB::class]
             );
+        };
+
+        $pimple[EmailSendingServiceInterface::class] = function () {
+            return new NoopEmailSendingService();
         };
     }
 }

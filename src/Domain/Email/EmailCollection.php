@@ -22,6 +22,11 @@ class EmailCollection
         $this->emails = $emails;
     }
 
+    public function count(): int
+    {
+        return count($this->emails);
+    }
+
     /**
      * @return string[]
      */

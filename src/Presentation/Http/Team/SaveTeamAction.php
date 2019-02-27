@@ -51,6 +51,8 @@ class SaveTeamAction
             $inputEmails = array_filter(explode("\r\n", $parsedBody['emails']));
         }
 
+        $inputEmails = array_unique($inputEmails);
+
         $emails = [];
         foreach ($inputEmails as $email) {
             $email = trim($email);

@@ -24,5 +24,6 @@ return [
             'cache'       => '/tmp/cache/twig',
         ],
     ],
-    'routes'   => require_once __DIR__ . '/routes.php',
+    'routes'   => require __DIR__ . '/routes.php',
+    'commands' => require __DIR__ . '/commands.php',
 ];

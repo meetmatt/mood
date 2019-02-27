@@ -17,7 +17,7 @@ class FeedbackRepository implements FeedbackRepositoryInterface
         $this->db = $easyDb;
     }
 
-    public function findAllByDate(string $teamId, string $date, int $limit): array
+    public function findByDate(string $teamId, string $date, int $limit): array
     {
         $feedback = [];
 
@@ -36,7 +36,7 @@ class FeedbackRepository implements FeedbackRepositoryInterface
         return $feedback;
     }
 
-    public function findNonEmptyByTeam(string $teamId): array
+    public function find(string $teamId): array
     {
         $feedback = [];
 

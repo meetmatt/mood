@@ -44,7 +44,7 @@ class FeedbackHistoryAction
             return $response->withStatus(404, $exception->getMessage());
         }
 
-        $feedbacks = $this->feedbackRepository->findNonEmptyByTeam($teamId);
+        $feedbacks = $this->feedbackRepository->find($teamId);
 
         return $this->twig->render(
             $response,

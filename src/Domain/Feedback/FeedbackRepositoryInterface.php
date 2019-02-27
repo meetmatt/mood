@@ -13,14 +13,14 @@ interface FeedbackRepositoryInterface
      *
      * @return Feedback[]
      */
-    public function findAllByDate(string $teamId, string $date, int $limit): array;
+    public function findByDate(string $teamId, string $date, int $limit): array;
 
     /**
      * @param string $teamId
      *
      * @return Feedback[]
      */
-    public function findNonEmptyByTeam(string $teamId): array;
+    public function find(string $teamId): array;
 
     /**
      * @param string $id

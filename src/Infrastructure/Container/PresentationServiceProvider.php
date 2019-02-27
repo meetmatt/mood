@@ -3,20 +3,24 @@
 namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 
 use MeetMatt\Colla\Mood\Domain\Email\EmailRepositoryInterface;
+use MeetMatt\Colla\Mood\Domain\Email\EmailSendingServiceInterface;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
+use MeetMatt\Colla\Mood\Presentation\Console\EmailFeedbackLinksCommand;
+use MeetMatt\Colla\Mood\Presentation\ConsoleApplication;
 use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackFormAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackHistoryAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Feedback\SaveFeedbackAction;
-use MeetMatt\Colla\Mood\Presentation\Http\Feedback\TodayFeedbackAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\CreateTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\FindTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\IndexAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\SaveTeamAction;
 use MeetMatt\Colla\Mood\Presentation\Http\Team\ShowTeamAction;
+use MeetMatt\Colla\Mood\Presentation\WebApplication;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
+use Psr\Container\ContainerInterface;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
 use Slim\Interfaces\RouterInterface;
@@ -27,6 +31,30 @@ class PresentationServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {
+        $pimple[WebApplication::class] = function (Container $container) {
+            $application = new WebApplication($container);
+
+            foreach ($container['routes'] as $route) {
+                $application->map([$route['method']], $route['pattern'], $route['action'])->setName($route['name']);
+            }
+
+            return $application;
+        };
+
+        $pimple[ConsoleApplication::class] = function (ContainerInterface $container) {
+            $application = new ConsoleApplication('Mood', 'dev-master');
+
+            $application->setContainer($container);
+            $commands = [];
+            foreach ($container['commands'] as $command) {
+                $commands[] = $container[$command];
+            }
+
+            $application->addCommands($commands);
+
+            return $application;
+        };
+
         $pimple[Twig::class] = function (Container $container) {
             $settings = $container['settings']['twig'];
             $view     = new Twig(
@@ -79,15 +107,6 @@ class PresentationServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple[TodayFeedbackAction::class] = function (Container $container) {
-            return new TodayFeedbackAction(
-                $container[TeamRepositoryInterface::class],
-                $container[FeedbackRepositoryInterface::class],
-                $container[RandomIdGeneratorInterface::class],
-                $container[Twig::class]
-            );
-        };
-
         $pimple[FeedbackHistoryAction::class] = function (Container $container) {
             return new FeedbackHistoryAction(
                 $container[TeamRepositoryInterface::class],
@@ -108,6 +127,16 @@ class PresentationServiceProvider implements ServiceProviderInterface
             return new SaveFeedbackAction(
                 $container[FeedbackRepositoryInterface::class],
                 $container['router']
+            );
+        };
+
+        $pimple[EmailFeedbackLinksCommand::class] = function (Container $container) {
+            return new EmailFeedbackLinksCommand(
+                $container[TeamRepositoryInterface::class],
+                $container[EmailRepositoryInterface::class],
+                $container[FeedbackRepositoryInterface::class],
+                $container[RandomIdGeneratorInterface::class],
+                $container[EmailSendingServiceInterface::class]
             );
         };
     }
