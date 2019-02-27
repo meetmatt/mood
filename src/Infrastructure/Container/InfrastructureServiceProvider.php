@@ -9,7 +9,7 @@ use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Metrics\MetricsInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use MeetMatt\Colla\Mood\Infrastructure\Cryptography\RandomIdGenerator;
-use MeetMatt\Colla\Mood\Infrastructure\Email\NoopEmailSendingService;
+use MeetMatt\Colla\Mood\Infrastructure\Email\PhpMailEmailSendingService;
 use MeetMatt\Colla\Mood\Infrastructure\Metrics\DogStatsdMetrics;
 use MeetMatt\Colla\Mood\Infrastructure\Mysql\EmailRepository;
 use MeetMatt\Colla\Mood\Infrastructure\Mysql\FeedbackRepository;
@@ -71,7 +71,7 @@ class InfrastructureServiceProvider implements ServiceProviderInterface
         };
 
         $pimple[EmailSendingServiceInterface::class] = function () {
-            return new NoopEmailSendingService();
+            return new PhpMailEmailSendingService();
         };
     }
 }

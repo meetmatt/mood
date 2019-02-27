@@ -1,0 +1,13 @@
+Debug=YES
+
+mailhub=$SMTP_MAILHUB
+rewriteDomain=$SMTP_REWRITE_DOMAIN
+hostname=$SMTP_HOSTNAME
+FromLineOverride=YES
+Root=$SMTP_USER
+
+AuthUser=$SMTP_USER
+AuthPass=$SMTP_PASS
+AuthMethod=$SMTP_AUTH_METHOD
+UseTLS=$SMTP_USE_TLS
+TLS_CA_File=/etc/pki/tls/certs/ca-bundle.crt
