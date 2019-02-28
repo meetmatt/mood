@@ -72,9 +72,16 @@ class EmailFeedbackLinksCommand extends Command
         $today             = date('Y-m-d');
         $requiredFeedbacks = $emails->count();
         $existingFeedbacks = $this->feedbackRepository->findByDate($teamId, $today, $requiredFeedbacks);
+
+        $output->writeln('Require ' . $requiredFeedbacks . ' feedbacks to be generated');
+        $output->writeln('Found ' . count($existingFeedbacks) . ' generated feedbacks');
+
         $missingFeedbacks  = $requiredFeedbacks - count($existingFeedbacks);
 
         if ($missingFeedbacks > 0) {
+
+            $output->writeln('Generating ' . $missingFeedbacks . ' feedbacks');
+
             $newFeedbacks = [];
             for ($i = 0; $i < $missingFeedbacks; $i++) {
                 $newFeedbacks[] = new Feedback($this->idGenerator->generate(), $teamId, $today);
@@ -85,6 +92,7 @@ class EmailFeedbackLinksCommand extends Command
 
         $emailsSent = 0;
         $allEmails = $emails->getAll();
+        $totalEmails = count($allEmails);
 
         $output->writeln('Sending ' . count($existingFeedbacks) . ' emails');
 
@@ -113,7 +121,7 @@ Mood Bot"
             }
         }
 
-        $output->writeln('Sent ' . $emailsSent . ' emails out of ' . count($allEmails));
+        $output->writeln('Sent ' . $emailsSent . ' emails out of ' . $totalEmails);
     }
 
 }
