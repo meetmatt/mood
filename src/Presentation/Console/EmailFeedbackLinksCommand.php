@@ -97,6 +97,7 @@ class EmailFeedbackLinksCommand extends Command
                 'New feedback link for today!',
                 'Dear member of <b>' . $team->getName() . "</b> team,
 <br>
+<br>
 Here's your personal feedback link for today: <a href='" . getenv('APPLICATION_BASE_URL') . '/feedback/' . $feedback->getId() . "'>Feedback link</a><br>
 <br>
 Best regards,
