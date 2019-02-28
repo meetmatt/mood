@@ -18,6 +18,7 @@ services:
       SMTP_REWRITE_DOMAIN: mood.colla.io
       SMTP_HOSTNAME: mood.colla.io
       SMTP_USE_TLS: "NO"
+      APPLICATION_BASE_URL: ${APPLICATION_BASE_URL}
 
   mysql:
     extends:

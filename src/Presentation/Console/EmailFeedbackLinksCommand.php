@@ -95,7 +95,12 @@ class EmailFeedbackLinksCommand extends Command
             $emailSent = $this->emailSender->send(
                 $currentEmail,
                 'New feedback link for today!',
-                "Hello! Here's your feedback link for today for " . $team->getName() . " team: <a href='http://localhost:8080/feedback/" . $feedback->getId() . "'>Feedback link</a>"
+                'Dear member of <b>' . $team->getName() . "</b> team,<br>
+Here's your personal feedback link for today:<br>
+<a href='" . getenv('APPLICATION_BASE_URL') . '/feedback/' . $feedback->getId() . "'>Feedback link</a><br>
+<br>
+Best regards,
+Mood Bot"
             );
 
             if ($emailSent) {
