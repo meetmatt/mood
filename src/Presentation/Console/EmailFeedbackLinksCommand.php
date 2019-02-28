@@ -65,6 +65,8 @@ class EmailFeedbackLinksCommand extends Command
             return 1;
         }
 
+        $output->writeln('Sending emails to team: ' . $team->getName());
+
         $emails = $this->emailRepository->get($teamId);
 
         $today             = date('Y-m-d');
@@ -81,15 +83,30 @@ class EmailFeedbackLinksCommand extends Command
             $existingFeedbacks = array_merge($existingFeedbacks, $newFeedbacks);
         }
 
+        $emailsSent = 0;
         $allEmails = $emails->getAll();
+
+        $output->writeln('Sending ' . count($existingFeedbacks) . ' emails');
+
         foreach ($existingFeedbacks as $feedback) {
             $currentEmail = array_shift($allEmails);
-            $this->emailSender->send(
+
+            $output->write('Sending email to ' . $currentEmail . ': ');
+            $emailSent = $this->emailSender->send(
                 $currentEmail,
                 'New feedback link for today!',
-                "Here's your feedback link for today for " . $team->getName() . " team: <a href='http://localhost:8080/feedback/" . $feedback->getId() . "'>Feedback link</a>"
+                "Hello! Here's your feedback link for today for " . $team->getName() . " team: <a href='http://localhost:8080/feedback/" . $feedback->getId() . "'>Feedback link</a>"
             );
+
+            if ($emailSent) {
+                $output->writeln('<info>OK</info>');
+                $emailsSent++;
+            } else {
+                $output->writeln('<error>FAIL</error>');
+            }
         }
+
+        $output->writeln('Sent ' . $emailsSent . ' emails out of ' . count($allEmails));
     }
 
 }

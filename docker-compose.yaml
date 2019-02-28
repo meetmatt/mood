@@ -18,9 +18,6 @@ services:
       SMTP_REWRITE_DOMAIN: mood.colla.io
       SMTP_HOSTNAME: mood.colla.io
       SMTP_USE_TLS: "NO"
-#     SMTP_AUTH_METHOD: LOGIN
-#     SMTP_USER: noreply@mood.colla.io
-#     SMTP_PASS: password
 
   mysql:
     extends:

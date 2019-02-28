@@ -16,13 +16,13 @@ services:
       file: docker-compose.base.yaml
       service: php
     environment:
-      SMTP_MAILHUB: "smtp.yandex.ru:465"
-      SMTP_REWRITE_DOMAIN: mood.colla.io
-      SMTP_HOSTNAME: mood.colla.io
+      SMTP_MAILHUB: ${SMTP_MAILHUB}
+      SMTP_REWRITE_DOMAIN: colla.io
+      SMTP_HOSTNAME: colla.io
       SMTP_USE_TLS: "YES"
-#      SMTP_AUTH_METHOD: LOGIN
-#      SMTP_USER: noreply@mood.colla.io
-#      SMTP_PASS: password
+      SMTP_AUTH_METHOD: LOGIN
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
 
   mysql:
     extends:
