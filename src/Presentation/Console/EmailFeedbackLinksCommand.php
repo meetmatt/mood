@@ -95,11 +95,12 @@ class EmailFeedbackLinksCommand extends Command
             $emailSent = $this->emailSender->send(
                 $currentEmail,
                 'New feedback link for today!',
-                'Dear member of <b>' . $team->getName() . "</b> team,<br>
-Here's your personal feedback link for today:<br>
-<a href='" . getenv('APPLICATION_BASE_URL') . '/feedback/' . $feedback->getId() . "'>Feedback link</a><br>
+                'Dear member of <b>' . $team->getName() . "</b> team,
+<br>
+Here's your personal feedback link for today: <a href='" . getenv('APPLICATION_BASE_URL') . '/feedback/' . $feedback->getId() . "'>Feedback link</a><br>
 <br>
 Best regards,
+<br>
 Mood Bot"
             );
 
