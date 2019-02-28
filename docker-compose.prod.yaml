@@ -18,8 +18,8 @@ services:
     environment:
       APPLICATION_BASE_URL: ${APPLICATION_BASE_URL}
       SMTP_MAILHUB: ${SMTP_MAILHUB}
-      SMTP_REWRITE_DOMAIN: colla.io
-      SMTP_HOSTNAME: colla.io
+      SMTP_REWRITE_DOMAIN: ${SMTP_REWRITE_DOMAIN:-colla.io}
+      SMTP_HOSTNAME: ${SMTP_HOSTNAME:-colla.io}
       SMTP_USE_TLS: "YES"
       SMTP_AUTH_METHOD: LOGIN
       SMTP_USER: ${SMTP_USER}

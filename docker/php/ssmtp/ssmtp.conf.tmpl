@@ -4,10 +4,11 @@ mailhub=$SMTP_MAILHUB
 rewriteDomain=$SMTP_REWRITE_DOMAIN
 hostname=$SMTP_HOSTNAME
 FromLineOverride=YES
+
 Root=$SMTP_USER
 
-AuthUser=$SMTP_USER
-AuthPass=$SMTP_PASS
-AuthMethod=$SMTP_AUTH_METHOD
+$SMTP_AUTH_COMMENTED AuthUser=$SMTP_USER
+$SMTP_AUTH_COMMENTED AuthPass=$SMTP_PASS
+$SMTP_AUTH_COMMENTED AuthMethod=$SMTP_AUTH_METHOD
 UseTLS=$SMTP_USE_TLS
 TLS_CA_File=/etc/pki/tls/certs/ca-bundle.crt
