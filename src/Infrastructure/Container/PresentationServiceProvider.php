@@ -4,6 +4,7 @@ namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 
 use MeetMatt\Colla\Mood\Domain\Email\EmailRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Email\EmailSendingServiceInterface;
+use MeetMatt\Colla\Mood\Domain\Email\TeamMailerService;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
@@ -51,6 +52,7 @@ class PresentationServiceProvider implements ServiceProviderInterface
             }
 
             $application->addCommands($commands);
+            $application->setWebApplication($container[WebApplication::class]);
 
             return $application;
         };
@@ -69,7 +71,9 @@ class PresentationServiceProvider implements ServiceProviderInterface
             /** @var RouterInterface $router */
             $router = $container['router'];
             $uri    = Uri::createFromEnvironment(new Environment($_SERVER));
-            $view->addExtension(new TwigExtension($router, $uri));
+            $twigExtension = new TwigExtension($router, $uri);
+            $twigExtension->setBaseUrl($settings['base_url']);
+            $view->addExtension($twigExtension);
 
             return $view;
         };
@@ -132,11 +136,14 @@ class PresentationServiceProvider implements ServiceProviderInterface
 
         $pimple[EmailFeedbackLinksCommand::class] = function (Container $container) {
             return new EmailFeedbackLinksCommand(
-                $container[TeamRepositoryInterface::class],
-                $container[EmailRepositoryInterface::class],
-                $container[FeedbackRepositoryInterface::class],
-                $container[RandomIdGeneratorInterface::class],
-                $container[EmailSendingServiceInterface::class]
+                new TeamMailerService(
+                    $container[TeamRepositoryInterface::class],
+                    $container[EmailRepositoryInterface::class],
+                    $container[FeedbackRepositoryInterface::class],
+                    $container[RandomIdGeneratorInterface::class],
+                    $container[EmailSendingServiceInterface::class],
+                    $container[Twig::class]
+                )
             );
         };
     }

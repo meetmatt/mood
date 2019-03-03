@@ -13,9 +13,17 @@ class ConsoleApplication extends Application
     /** @var ContainerInterface */
     protected $container;
 
+    /** @var WebApplication */
+    private $webApplication;
+
     public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
+    }
+
+    public function setWebApplication(WebApplication $webApplication): void
+    {
+        $this->webApplication = $webApplication;
     }
 
     public function run(InputInterface $input = null, OutputInterface $output = null)

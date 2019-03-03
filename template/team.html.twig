@@ -1,6 +1,14 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
+    <script>
+        function edit() {
+            this.event.preventDefault();
+            document.getElementById('form').style.display='block';
+            document.getElementById('btn-edit').style.display='none';
+        }
+    </script>
+
     <h1>{{ team.name }}</h1>
     <p>
         Save this ID <b>{{ team.id }}</b> in order to find your team later.
@@ -15,8 +23,14 @@
 
     <p>
         Team emails:
+        <a id="btn-edit" href="#" onclick="edit()">Edit</a>
 
-        <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('save_team', {'id':team.id}) }}">
+        <form style="display:none"
+              id="form"
+              method="post"
+              class="pure-form pure-form-stacked"
+              action="{{ path_for('save_team', {'id':team.id}) }}">
+
             <textarea style="width:50%; height: 300px" name="emails">{% for email in emails.all %}{{ email }}
 {% endfor %}</textarea>
             <input class="pure-button pure-button-primary" type="submit">
