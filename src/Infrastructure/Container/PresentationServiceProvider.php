@@ -6,7 +6,7 @@ use MeetMatt\Colla\Mood\Domain\Email\EmailRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Email\EmailSendingServiceInterface;
 use MeetMatt\Colla\Mood\Domain\Email\TeamMailerService;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
-use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
+use MeetMatt\Colla\Mood\Domain\Identity\IdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use MeetMatt\Colla\Mood\Presentation\Console\EmailFeedbackLinksCommand;
 use MeetMatt\Colla\Mood\Presentation\ConsoleApplication;
@@ -140,7 +140,7 @@ class PresentationServiceProvider implements ServiceProviderInterface
                     $container[TeamRepositoryInterface::class],
                     $container[EmailRepositoryInterface::class],
                     $container[FeedbackRepositoryInterface::class],
-                    $container[RandomIdGeneratorInterface::class],
+                    $container[IdGeneratorInterface::class],
                     $container[EmailSendingServiceInterface::class],
                     $container[Twig::class]
                 )

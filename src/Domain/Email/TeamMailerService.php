@@ -5,7 +5,7 @@ namespace MeetMatt\Colla\Mood\Domain\Email;
 use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
 use MeetMatt\Colla\Mood\Domain\Feedback\Feedback;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
-use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
+use MeetMatt\Colla\Mood\Domain\Identity\IdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use Slim\Views\Twig;
 
@@ -20,7 +20,7 @@ class TeamMailerService
     /** @var FeedbackRepositoryInterface */
     private $feedbackRepository;
 
-    /** @var RandomIdGeneratorInterface */
+    /** @var IdGeneratorInterface */
     private $idGenerator;
 
     /** @var EmailSendingServiceInterface */
@@ -33,7 +33,7 @@ class TeamMailerService
         TeamRepositoryInterface $teamRepository,
         EmailRepositoryInterface $emailRepository,
         FeedbackRepositoryInterface $feedbackRepository,
-        RandomIdGeneratorInterface $idGenerator,
+        IdGeneratorInterface $idGenerator,
         EmailSendingServiceInterface $emailSender,
         Twig $twig
     )

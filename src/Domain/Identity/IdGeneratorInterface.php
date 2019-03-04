@@ -2,7 +2,7 @@
 
 namespace MeetMatt\Colla\Mood\Domain\Identity;
 
-interface RandomIdGeneratorInterface
+interface IdGeneratorInterface
 {
     public function generate(): string;
 }

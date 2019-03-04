@@ -5,10 +5,10 @@ namespace MeetMatt\Colla\Mood\Infrastructure\Container;
 use MeetMatt\Colla\Mood\Domain\Email\EmailRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Email\EmailSendingServiceInterface;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
-use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
+use MeetMatt\Colla\Mood\Domain\Identity\IdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Metrics\MetricsInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
-use MeetMatt\Colla\Mood\Infrastructure\Cryptography\RandomIdGenerator;
+use MeetMatt\Colla\Mood\Infrastructure\Identity\UuidGenerator;
 use MeetMatt\Colla\Mood\Infrastructure\Email\PhpMailEmailSendingService;
 use MeetMatt\Colla\Mood\Infrastructure\Metrics\DogStatsdMetrics;
 use MeetMatt\Colla\Mood\Infrastructure\Mysql\EmailRepository;
@@ -47,14 +47,14 @@ class InfrastructureServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple[RandomIdGeneratorInterface::class] = function () {
-            return new RandomIdGenerator();
+        $pimple[IdGeneratorInterface::class] = function () {
+            return new UuidGenerator();
         };
 
         $pimple[TeamRepositoryInterface::class] = function (Container $container) {
             return new TeamRepository(
                 $container[EasyDB::class],
-                $container[RandomIdGeneratorInterface::class]
+                $container[IdGeneratorInterface::class]
             );
         };
 

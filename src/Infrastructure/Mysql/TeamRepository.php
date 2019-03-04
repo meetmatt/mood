@@ -3,7 +3,7 @@
 namespace MeetMatt\Colla\Mood\Infrastructure\Mysql;
 
 use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
-use MeetMatt\Colla\Mood\Domain\Identity\RandomIdGeneratorInterface;
+use MeetMatt\Colla\Mood\Domain\Identity\IdGeneratorInterface;
 use MeetMatt\Colla\Mood\Domain\Team\Team;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use ParagonIE\EasyDB\EasyDB;
@@ -13,10 +13,10 @@ class TeamRepository implements TeamRepositoryInterface
     /** @var EasyDB */
     private $db;
 
-    /** @var RandomIdGeneratorInterface */
+    /** @var IdGeneratorInterface */
     private $idGenerator;
 
-    public function __construct(EasyDB $db, RandomIdGeneratorInterface $idGenerator)
+    public function __construct(EasyDB $db, IdGeneratorInterface $idGenerator)
     {
         $this->db          = $db;
         $this->idGenerator = $idGenerator;
