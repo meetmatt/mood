@@ -7,9 +7,9 @@ services:
       file: docker-compose.base.yaml
       service: nginx
     environment:
-      VIRTUAL_HOST: mood.colla.io
-      LETSENCRYPT_HOST: mood.colla.io
-      LETSENCRYPT_EMAIL: meetmatt@ya.ru
+      VIRTUAL_HOST: ${APPLICATION_DOMAIN}
+      LETSENCRYPT_HOST: ${APPLICATION_DOMAIN}
+      LETSENCRYPT_EMAIL: ${APPLICATION_CERT_EMAIL}
 
   php:
     extends:
@@ -81,7 +81,7 @@ services:
     container_name: mood_grafana
     restart: always
     environment:
-      VIRTUAL_HOST: grafana.mood.colla.io
       VIRTUAL_PORT: 3000
-      LETSENCRYPT_HOST: grafana.mood.colla.io
-      LETSENCRYPT_EMAIL: meetmatt@ya.ru
+      VIRTUAL_HOST: ${GRAFANA_DOMAIN}
+      LETSENCRYPT_HOST: ${GRAFANA_DOMAIN}
+      LETSENCRYPT_EMAIL: ${GRAFANA_CERT_EMAIL}
