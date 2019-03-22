@@ -1,6 +1,6 @@
 <?php
 
-namespace MeetMatt\Colla\Mood\Presentation\Http\Feedback;
+namespace MeetMatt\Colla\Mood\Presentation\Http\Action\Feedback;
 
 use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
 use MeetMatt\Colla\Mood\Domain\Feedback\Feedback;

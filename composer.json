@@ -4,7 +4,6 @@
   "license": "proprietary",
   "minimum-stability": "stable",
   "config": {
-    "classmap-authoritative": true,
     "optimize-autoloader": true,
     "sort-packages": true
   },

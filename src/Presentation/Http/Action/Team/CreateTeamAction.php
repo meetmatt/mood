@@ -1,6 +1,6 @@
 <?php
 
-namespace MeetMatt\Colla\Mood\Presentation\Http\Team;
+namespace MeetMatt\Colla\Mood\Presentation\Http\Action\Team;
 
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;

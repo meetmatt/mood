@@ -1,14 +1,15 @@
 <?php
 
-namespace MeetMatt\Colla\Mood\Presentation;
+namespace MeetMatt\Colla\Mood\Presentation\Console;
 
 use MeetMatt\Colla\Mood\Domain\Metrics\MetricsInterface;
+use MeetMatt\Colla\Mood\Presentation\Http\Application as WebApplication;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Application as SymfonyConsoleApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConsoleApplication extends Application
+class Application extends SymfonyConsoleApplication
 {
     /** @var ContainerInterface */
     protected $container;

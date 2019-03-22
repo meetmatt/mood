@@ -1,13 +1,13 @@
 <?php
 
-use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackFormAction;
-use MeetMatt\Colla\Mood\Presentation\Http\Feedback\FeedbackHistoryAction;
-use MeetMatt\Colla\Mood\Presentation\Http\Feedback\SaveFeedbackAction;
-use MeetMatt\Colla\Mood\Presentation\Http\Team\CreateTeamAction;
-use MeetMatt\Colla\Mood\Presentation\Http\Team\FindTeamAction;
-use MeetMatt\Colla\Mood\Presentation\Http\IndexAction;
-use MeetMatt\Colla\Mood\Presentation\Http\Team\SaveTeamAction;
-use MeetMatt\Colla\Mood\Presentation\Http\Team\ShowTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\Feedback\FeedbackFormAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\Feedback\FeedbackHistoryAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\Feedback\SaveFeedbackAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\Team\CreateTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\Team\FindTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\IndexAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\Team\SaveTeamAction;
+use MeetMatt\Colla\Mood\Presentation\Http\Action\Team\ShowTeamAction;
 
 return [
     [

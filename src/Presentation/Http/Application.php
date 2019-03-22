@@ -1,11 +1,11 @@
 <?php
 
-namespace MeetMatt\Colla\Mood\Presentation;
+namespace MeetMatt\Colla\Mood\Presentation\Http;
 
 use MeetMatt\Colla\Mood\Domain\Metrics\MetricsInterface;
 use Slim\App;
 
-class WebApplication extends App
+class Application extends App
 {
     public function run($silent = false)
     {

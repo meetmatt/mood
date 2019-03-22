@@ -1,9 +1,9 @@
 <?php
 
-use MeetMatt\Colla\Mood\Presentation\WebApplication;
+use MeetMatt\Colla\Mood\Presentation\Http\Application;
 
 require_once __DIR__ . '/../app/bootstrap.php';
 
-/** @var WebApplication $app */
-$app = $container[WebApplication::class];
+/** @var Application $app */
+$app = $container[Application::class];
 $app->run();

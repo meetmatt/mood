@@ -1,6 +1,6 @@
 <?php
 
-namespace MeetMatt\Colla\Mood\Presentation\Http;
+namespace MeetMatt\Colla\Mood\Presentation\Http\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
