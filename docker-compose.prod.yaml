@@ -8,8 +8,8 @@ services:
       service: nginx
     environment:
       VIRTUAL_HOST: ${APPLICATION_DOMAIN}
-#      LETSENCRYPT_HOST: ${APPLICATION_DOMAIN}
-#      LETSENCRYPT_EMAIL: ${APPLICATION_CERT_EMAIL}
+      LETSENCRYPT_HOST: ${APPLICATION_DOMAIN}
+      LETSENCRYPT_EMAIL: ${APPLICATION_CERT_EMAIL}
 
   php:
     extends:
@@ -36,18 +36,18 @@ services:
     restart: always
     ports:
       - 80:80
-#      - 443:443
+      - 443:443
     volumes:
       - ./var/nginx/certs:/etc/nginx/certs
       - ./var/nginx/vhost.d:/etc/nginx/vhost.d
       - ./var/nginx/html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
-#  letsencrypt:
-#    image: jrcs/letsencrypt-nginx-proxy-companion
-#    container_name: mood_letsencrypt
-#    restart: always
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#    volumes_from:
-#      - proxy
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: mood_letsencrypt
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - proxy
