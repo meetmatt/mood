@@ -2,19 +2,12 @@
 
 return [
     'settings' => [
-        'displayErrorDetails' => true,
+        'displayErrorDetails' => false,
 
         'mysql' => [
             'host'     => 'mysql',
             'database' => 'mood',
             'user'     => 'root',
-        ],
-
-        'statsd' => [
-            'host' => 'telegraf',
-            'tags' => [
-                'application' => 'mood',
-            ],
         ],
 
         'twig' => [

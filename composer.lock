@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3c879737f2a8b0401dd2fee22d6fd6e",
+    "content-hash": "3be936ac3f6586e5159deaaef7c43e33",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -36,58 +36,6 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
-        },
-        {
-            "name": "datadog/php-datadogstatsd",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DataDog/php-datadogstatsd.git",
-                "reference": "4056447a1caeabb357efbc1aec935197632b7122"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DataDog/php-datadogstatsd/zipball/4056447a1caeabb357efbc1aec935197632b7122",
-                "reference": "4056447a1caeabb357efbc1aec935197632b7122",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "lib-curl": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.8.36"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DataDog\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alex Corley",
-                    "email": "anthroprose@gmail.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "DataDog",
-                    "email": "dev@datadoghq.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "This is an extremely simple PHP datadogstatsd client",
-            "homepage": "https://www.datadoghq.com/",
-            "keywords": [
-                "DataDog",
-                "php"
-            ],
-            "time": "2018-10-17T20:48:54+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -968,8 +916,7 @@
     "platform": {
         "php": ">=7.3",
         "ext-json": "*",
-        "ext-pdo": "*",
-        "ext-sockets": "*"
+        "ext-pdo": "*"
     },
     "platform-dev": []
 }
