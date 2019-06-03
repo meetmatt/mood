@@ -26,3 +26,15 @@
         <input class="pure-button pure-button-primary" type="submit">
     </form>
 {% endblock %}
+
+{% block script %}
+    <script>
+        $('form').change(function () {
+            if ($('input[type="radio"]:checked').val() < 3) {
+                $('textarea').attr('required', 'required');
+            } else {
+                $('textarea').removeAttr('required');
+            }
+        });
+    </script>
+{% endblock %}
