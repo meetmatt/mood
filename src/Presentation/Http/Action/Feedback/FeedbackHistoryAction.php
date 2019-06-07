@@ -4,6 +4,7 @@ namespace MeetMatt\Colla\Mood\Presentation\Http\Action\Feedback;
 
 use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
+use MeetMatt\Colla\Mood\Domain\Report\ReportRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,16 +18,21 @@ class FeedbackHistoryAction
     /** @var FeedbackRepositoryInterface */
     private $feedbackRepository;
 
+    /** @var ReportRepositoryInterface */
+    private $reportRepository;
+
     /** @var Twig */
     private $twig;
 
     public function __construct(
         TeamRepositoryInterface $teamRepository,
         FeedbackRepositoryInterface $feedbackRepository,
+        ReportRepositoryInterface $reportRepository,
         Twig $twig
     ) {
         $this->teamRepository     = $teamRepository;
         $this->feedbackRepository = $feedbackRepository;
+        $this->reportRepository   = $reportRepository;
         $this->twig               = $twig;
     }
 
@@ -34,8 +40,7 @@ class FeedbackHistoryAction
         ServerRequestInterface $request,
         ResponseInterface $response,
         array $arguments = []
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $teamId = $arguments['id'];
 
         try {
@@ -44,14 +49,17 @@ class FeedbackHistoryAction
             return $response->withStatus(404, $exception->getMessage());
         }
 
-        $feedbacks = $this->feedbackRepository->find($teamId);
+        $feedbacks = $this->feedbackRepository->find($team->getId());
+
+        $statistics = $this->reportRepository->findDailyStatistics($team->getId());
 
         return $this->twig->render(
             $response,
             'history.html.twig',
             [
-                'team'      => $team,
-                'feedbacks' => $feedbacks,
+                'team'       => $team,
+                'feedbacks'  => $feedbacks,
+                'statistics' => $statistics,
             ]
         );
     }

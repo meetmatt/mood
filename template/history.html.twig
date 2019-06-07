@@ -11,6 +11,8 @@
         <h5 class="card-header">Feedback History of {{ team.name }}</h5>
 
         <div class="card-body">
+            <canvas id="feedbackChart"></canvas>
+
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -32,3 +34,114 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+    <script>
+        'use strict';
+
+        var data = new Array();
+
+        {% for statistic in statistics.all() %}
+            var date = moment('{{ statistic.getDate() }}');
+
+            data.push(
+                {
+                    t: date.valueOf(),
+                    y: {{ statistic.getAverageRating() }}
+                }
+            );
+        {% endfor %}
+
+        var COLORS = {
+            red: 'rgb(255, 99, 132)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(75, 192, 192)',
+            blue: 'rgb(54, 162, 235)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+        var config = {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'Average Mood',
+                    backgroundColor: COLORS.red,
+                    borderColor: COLORS.red,
+                    data: data,
+                    type: 'line',
+                    pointRadius: 0,
+                    fill: false,
+                    lineTension: 0,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    intersect: false,
+                    mode: 'index',
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += tooltipItem.yLabel;
+
+                            return label;
+                        }
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        distribution: 'series',
+                        time: {
+                            unit: 'day',
+                            displayFormats: {
+                                millisecond: 'h:mm:ss.SSS a',
+                                second: 'D MMM',
+                                minute: 'D MMM',
+                                hour: 'hA',
+                                day: 'MMM D YYYY',
+                                week: 'll',
+                                month: 'MMM YYYY',
+                                quarter: '[Q]Q - YYYY',
+                                year: 'YYYY'
+                            },
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Rating'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                if (value % 1 === 0) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }]
+                }
+            }
+        };
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var ctx = document.getElementById('feedbackChart').getContext('2d');
+
+                new Chart(ctx, config);
+            }, false);
+        })();
+    </script>
+{% endblock %}
+
