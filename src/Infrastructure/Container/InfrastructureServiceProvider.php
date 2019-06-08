@@ -6,7 +6,7 @@ use MeetMatt\Colla\Mood\Domain\Email\EmailRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Email\EmailSendingServiceInterface;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Identity\IdGeneratorInterface;
-use MeetMatt\Colla\Mood\Domain\Report\ReportRepositoryInterface;
+use MeetMatt\Colla\Mood\Domain\Feedback\ReportRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use MeetMatt\Colla\Mood\Infrastructure\Identity\UuidGenerator;
 use MeetMatt\Colla\Mood\Infrastructure\Email\PhpMailEmailSendingService;

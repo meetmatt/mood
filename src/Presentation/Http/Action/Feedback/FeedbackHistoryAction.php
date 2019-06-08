@@ -3,8 +3,9 @@
 namespace MeetMatt\Colla\Mood\Presentation\Http\Action\Feedback;
 
 use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
+use MeetMatt\Colla\Mood\Domain\Feedback\DateRange;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
-use MeetMatt\Colla\Mood\Domain\Report\ReportRepositoryInterface;
+use MeetMatt\Colla\Mood\Domain\Feedback\ReportRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -49,9 +50,15 @@ class FeedbackHistoryAction
             return $response->withStatus(404, $exception->getMessage());
         }
 
-        $feedbacks = $this->feedbackRepository->find($team->getId());
+        $queryParams = $request->getQueryParams();
 
-        $statistics = $this->reportRepository->findDailyStatistics($team->getId());
+        $dateRange = isset($queryParams['dateRange'])
+            ? DateRange::createFromString($queryParams['dateRange'])
+            : DateRange::createDefault();
+
+        $feedbacks = $this->feedbackRepository->find($team->getId(), $dateRange);
+
+        $statistics = $this->reportRepository->findDailyStatistics($team->getId(), $dateRange);
 
         return $this->twig->render(
             $response,
@@ -60,6 +67,7 @@ class FeedbackHistoryAction
                 'team'       => $team,
                 'feedbacks'  => $feedbacks,
                 'statistics' => $statistics,
+                'dateRange'  => $dateRange,
             ]
         );
     }

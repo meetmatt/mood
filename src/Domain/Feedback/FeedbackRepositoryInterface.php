@@ -16,11 +16,12 @@ interface FeedbackRepositoryInterface
     public function findByDate(string $teamId, string $date, int $limit): array;
 
     /**
-     * @param string $teamId
+     * @param string    $teamId
+     * @param DateRange $dateRange
      *
      * @return Feedback[]
      */
-    public function find(string $teamId): array;
+    public function find(string $teamId, DateRange $dateRange): array;
 
     /**
      * @param string $id
