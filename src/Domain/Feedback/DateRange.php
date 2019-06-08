@@ -15,6 +15,13 @@ final class DateRange
     /** @var DateTimeInterface */
     private $end;
 
+    /**
+     * @param string $dateRange
+     *
+     * @return DateRange
+     *
+     * @throws InvalidArgumentException
+     */
     public static function createFromString(string $dateRange): self
     {
         if (empty($dateRange)) {
