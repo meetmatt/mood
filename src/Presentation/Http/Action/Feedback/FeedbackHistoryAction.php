@@ -2,6 +2,7 @@
 
 namespace MeetMatt\Colla\Mood\Presentation\Http\Action\Feedback;
 
+use DateTimeImmutable;
 use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
 use MeetMatt\Colla\Mood\Domain\Feedback\DateRange;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
@@ -54,7 +55,7 @@ class FeedbackHistoryAction
 
         $dateRange = isset($queryParams['dateRange'])
             ? DateRange::createFromString($queryParams['dateRange'])
-            : DateRange::createDefault();
+            : DateRange::createDefault(new DateTimeImmutable());
 
         $feedbacks = $this->feedbackRepository->find($team->getId(), $dateRange);
 

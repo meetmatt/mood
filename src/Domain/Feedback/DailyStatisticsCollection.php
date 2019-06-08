@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MeetMatt\Colla\Mood\Domain\Feedback;
 
@@ -14,7 +14,9 @@ class DailyStatisticsCollection
 
     public function add(DailyStatistics $statistics): void
     {
-        $this->statistics[] = $statistics;
+        $date = $statistics->getDate()->format('Y-m-d');
+
+        $this->statistics[$date] = $statistics;
     }
 
     /**
@@ -22,7 +24,7 @@ class DailyStatisticsCollection
      */
     public function all(): array
     {
-        return $this->statistics;
+        return array_values($this->statistics);
     }
 
     public function getWholeAverage(): float

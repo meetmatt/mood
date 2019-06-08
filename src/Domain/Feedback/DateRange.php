@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MeetMatt\Colla\Mood\Domain\Feedback;
 
@@ -17,11 +17,14 @@ final class DateRange
 
     public static function createFromString(string $dateRange): self
     {
-        [$start, $end] = explode(' to ', $dateRange);
-
-        if (empty($end)) {
-            $end = $start;
+        if (empty($dateRange)) {
+            throw new InvalidArgumentException('Missing date range.');
         }
+
+        $ranges = explode(' to ', $dateRange);
+
+        $start = $ranges[0];
+        $end   = $ranges[1] ?? $start;
 
         $startDate = DateTimeImmutable::createFromFormat('Y-m-d', $start);
         if ($startDate === false) {
@@ -36,12 +39,11 @@ final class DateRange
         return new self($startDate, $endDate);
     }
 
-    public static function createDefault(): DateRange
+    public static function createDefault(DateTimeImmutable $end): DateRange
     {
-        $now            = new DateTimeImmutable();
-        $twoWeeksBefore = $now->sub(new DateInterval('P14D'));
+        $twoWeeksBefore = $end->sub(new DateInterval('P14D'));
 
-        return new self($twoWeeksBefore, $now);
+        return new self($twoWeeksBefore, $end);
     }
 
     public function __construct(DateTimeInterface $start, DateTimeInterface $end)
