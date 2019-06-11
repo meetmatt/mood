@@ -1,9 +1,13 @@
 {% extends 'layout.html.twig' %}
 
+{% block style %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.7/flatpickr.min.css">
+{% endblock %}
+
 {% block content %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ path_for('show_team', {"id":team.id}) }}"><< Back</a></li>
+            <li class="breadcrumb-item"><a href="{{ path_for('show_team', {"id":team.id}) }}">&lt;&lt; Back</a></li>
         </ol>
     </nav>
 

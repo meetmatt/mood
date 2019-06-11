@@ -42,6 +42,4 @@ Todo
 
 1. Add email queue.
 2. Add cron daemon.
-3. Charts.
-4. Better UI.
-5. Authn/authz.
+3. Authn/authz.

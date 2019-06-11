@@ -48,31 +48,3 @@
         </div>
     <div>
 {% endblock %}
-
-{% block script %}
-    <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var feedbackForm = document.getElementById('feedbackForm');
-
-                feedbackForm.addEventListener('change', function (event) {
-                    var ratingRadios = document.getElementsByName('rating');
-                    var selectedValue;
-                    for (var i = 0; i < ratingRadios.length; i++) {
-                        if (ratingRadios[i].checked) {
-                            selectedValue = ratingRadios[i].value;
-                            break;
-                        }
-                    }
-
-                    if (selectedValue < 3) {
-                        document.getElementById('comment').setAttribute('required', 'required');
-                    } else {
-                        document.getElementById('comment').removeAttribute('required');
-                    }
-                }, false);
-            }, false);
-        })();
-    </script>
-{% endblock %}
