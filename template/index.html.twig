@@ -1,22 +1,50 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
+    <div class="card shadow-sm">
+
+        <div class="card-body row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Search</h5>
+
+                        <form method="post" action="{{ path_for('find_team') }}" class="needs-validation" novalidate>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="id" placeholder="ID" required />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="submit">Find team</button>
+                                </div>
+
+                                <div class="invalid-feedback">
+                                    Please provide a team ID.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Registration</h5>
+
+                        <form method="post" action="{{ path_for('create_team') }}" class="needs-validation" novalidate>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="name" placeholder="Name" required />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="submit">Create new team</button>
+                                </div>
+
+                                <div class="invalid-feedback">
+                                    Please provide a team name.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     <div>
-        <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('find_team') }}">
-            <label>
-                Find team:
-                <input name="id" placeholder="ID">
-            </label>
-            <input class="pure-button pure-button-primary" type="submit">
-        </form>
-    </div>
-    <div>
-        <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('create_team') }}">
-            <label>
-                Create new team:
-                <input name="name" placeholder="Name">
-            </label>
-            <input class="pure-button pure-button-primary" type="submit">
-        </form>
-    </div>
 {% endblock %}

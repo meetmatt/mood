@@ -7,6 +7,7 @@ use MeetMatt\Colla\Mood\Domain\Email\EmailSendingServiceInterface;
 use MeetMatt\Colla\Mood\Domain\Email\TeamMailerService;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Identity\IdGeneratorInterface;
+use MeetMatt\Colla\Mood\Domain\Feedback\ReportRepositoryInterface;
 use MeetMatt\Colla\Mood\Domain\Team\TeamRepositoryInterface;
 use MeetMatt\Colla\Mood\Presentation\Console\EmailFeedbackLinksCommand;
 use MeetMatt\Colla\Mood\Presentation\Console\Application as ConsoleApplication;
@@ -115,6 +116,7 @@ class PresentationServiceProvider implements ServiceProviderInterface
             return new FeedbackHistoryAction(
                 $container[TeamRepositoryInterface::class],
                 $container[FeedbackRepositoryInterface::class],
+                $container[ReportRepositoryInterface::class],
                 $container[Twig::class]
             );
         };

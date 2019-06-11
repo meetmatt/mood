@@ -3,6 +3,7 @@
 namespace MeetMatt\Colla\Mood\Infrastructure\Mysql;
 
 use MeetMatt\Colla\Mood\Domain\Exception\NotFoundException;
+use MeetMatt\Colla\Mood\Domain\Feedback\DateRange;
 use MeetMatt\Colla\Mood\Domain\Feedback\Feedback;
 use MeetMatt\Colla\Mood\Domain\Feedback\FeedbackRepositoryInterface;
 use ParagonIE\EasyDB\EasyDB;
@@ -36,14 +37,32 @@ class FeedbackRepository implements FeedbackRepositoryInterface
         return $feedback;
     }
 
-    public function find(string $teamId): array
+    public function find(string $teamId, DateRange $dateRange): array
     {
-        $feedback = [];
+        $query = '
+            SELECT 
+                * 
+            FROM 
+                feedback 
+            WHERE 
+                team_id = ? 
+                AND 
+                rating IS NOT NULL
+                AND
+                `date` BETWEEN ? AND ?
+            ORDER BY 
+                `date` DESC
+        ';
 
         $rows = $this->db->run(
-            'SELECT * FROM feedback WHERE team_id = ? AND rating IS NOT NULL ORDER BY `date` DESC',
-            $teamId
+            $query,
+            $teamId,
+            $dateRange->getStart()->format('Y-m-d'),
+            $dateRange->getEnd()->format('Y-m-d')
         );
+
+        $feedback = [];
+
         if ($rows) {
             foreach ($rows as $row) {
                 $feedback[] = $this->createFromRow($row);

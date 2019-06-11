@@ -1,40 +1,90 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <h1>{{ team.name }}</h1>
-    <p>
-        <b>{{ feedback.date }}</b>
-    </p>
-
     {% if thankyou %}
-        <p>
+        <div class="alert alert-success" role="alert">
             Thank you for feedback!
-        </p>
+        </div>
     {% endif %}
 
-    <form class="pure-form pure-form-stacked" method="post" action="{{ path_for('save_feedback', {'id':feedback.id}) }}">
-        <fieldset>
-            <input required type="radio" name="rating" value="1"{% if feedback.rating == 1 %} checked{% endif %}> Awful
-            <input type="radio" name="rating" value="2"{% if feedback.rating == 2 %} checked{% endif %}> Bad
-            <input type="radio" name="rating" value="3"{% if feedback.rating == 3 %} checked{% endif %}> Normal
-            <input type="radio" name="rating" value="4"{% if feedback.rating == 4 %} checked{% endif %}> Good
-            <input type="radio" name="rating" value="5"{% if feedback.rating == 5 %} checked{% endif %}> Amazing
-        </fieldset>
+    <div class="card shadow-sm">
+        <h5 class="card-header">Feedback of {{ team.name }} at {{ feedback.date|date("d/m/Y") }}</h5>
 
-        <textarea style="width:100%; height: 100px" name="comment" placeholder="Leave a comment ...">{{ feedback.comment }}</textarea>
+        <div class="card-body text-center">
+            <form id="feedbackForm" method="post" action="{{ path_for('save_feedback', {'id':feedback.id}) }}"
+                  class="needs-validation" novalidate>
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" name="rating"
+                               value="1"{% if feedback.rating == 1 %} checked{% endif %} required>
+                        <label class="form-check-label" for="inlineCheckbox1">Awful</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox2" name="rating"
+                               value="2"{% if feedback.rating == 2 %} checked{% endif %}>
+                        <label class="form-check-label" for="inlineCheckbox2">Bad</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" name="rating"
+                               value="3"{% if (feedback.rating == 3 or feedback.rating is empty) %} checked{% endif %}>
+                        <label class="form-check-label" for="inlineCheckbox3">Normal</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox4" name="rating"
+                               value="4"{% if feedback.rating == 4 %} checked{% endif %}>
+                        <label class="form-check-label" for="inlineCheckbox4">Good</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox5" name="rating"
+                               value="5"{% if feedback.rating == 5 %} checked{% endif %}>
+                        <label class="form-check-label" for="inlineCheckbox5">Amazing</label>
+                    </div>
 
-        <input class="pure-button pure-button-primary" type="submit">
-    </form>
+                    <div class="invalid-feedback">
+                        Please provide a rating.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="comment" name="comment" class="form-control"
+                              placeholder="Leave a comment ...">{{ feedback.comment }}</textarea>
+
+                    <div class="invalid-feedback">
+                        Please provide a comment.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">{% if thankyou %}Update{% else %}Send{% endif %} feedback
+                </button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}
     <script>
-        $('form').change(function () {
-            if ($('input[type="radio"]:checked').val() < 3) {
-                $('textarea').attr('required', 'required');
-            } else {
-                $('textarea').removeAttr('required');
-            }
-        });
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var feedbackForm = document.getElementById('feedbackForm');
+
+                feedbackForm.addEventListener('change', function (event) {
+                    var ratingRadios = document.getElementsByName('rating');
+                    var selectedValue;
+                    for (var i = 0; i < ratingRadios.length; i++) {
+                        if (ratingRadios[i].checked) {
+                            selectedValue = ratingRadios[i].value;
+                            break;
+                        }
+                    }
+
+                    if (selectedValue < 3) {
+                        document.getElementById('comment').setAttribute('required', 'required');
+                    } else {
+                        document.getElementById('comment').removeAttribute('required');
+                    }
+                }, false);
+            }, false);
+        })();
     </script>
 {% endblock %}

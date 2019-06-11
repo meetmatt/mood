@@ -1,39 +1,38 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <script>
-        function edit() {
-            this.event.preventDefault();
-            document.getElementById('form').style.display='block';
-            document.getElementById('btn-edit').style.display='none';
-        }
-    </script>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path_for('index') }}">&lt;&lt; Back</a></li>
+        </ol>
+    </nav>
 
-    <h1>{{ team.name }}</h1>
-    <p>
-        Save this ID <b>{{ team.id }}</b> in order to find your team later.
-    </p>
-    <p>
-        Or just simply save this page to bookmarks!
-    </p>
+    <div class="card shadow-sm">
+        <h5 class="card-header">{{ team.name }}</h5>
 
-    <p>
-        <a class="pure-button" href="{{ path_for('feedback_history', {"id":team.id}) }}">Feedback history</a>
-    </p>
+        <div class="card-body text-center">
+            <p class="card-text">Save this ID <strong>{{ team.id }}</strong> in order to find your team later.</p>
+            <p class="card-text">Or just simply save this page to bookmarks!</p>
 
-    <p>
-        Team emails:
-        <a id="btn-edit" href="#" onclick="edit()">Edit</a>
+            <p>
+                <a href="{{ path_for('feedback_history', {"id":team.id}) }}" class="btn btn-outline-primary">Feedback history</a>
 
-        <form style="display:none"
-              id="form"
-              method="post"
-              class="pure-form pure-form-stacked"
-              action="{{ path_for('save_team', {'id':team.id}) }}">
+                <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapsedEmails">
+                    Edit team emails
+                </button>
+            </p>
 
-            <textarea style="width:50%; height: 300px" name="emails">{% for email in emails.all %}{{ email }}
+            <div class="collapse" id="collapsedEmails">
+                <form id="form" method="post" action="{{ path_for('save_team', {'id':team.id}) }}">
+                    <div class="form-group d-flex justify-content-center">
+                        <textarea id="emails" name="emails" class="form-control w-25" rows="10">{% for email in emails.all %}{{ email }}
 {% endfor %}</textarea>
-            <input class="pure-button pure-button-primary" type="submit">
-        </form>
-    </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
