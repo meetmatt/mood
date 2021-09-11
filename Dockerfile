@@ -1,4 +1,4 @@
-FROM php:7.3.2-fpm-alpine
+FROM php:7.4.0RC4-fpm-alpine
 
 # prepare apk
 RUN rm -rf /var/cache/apk/* \
